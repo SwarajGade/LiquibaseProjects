@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="swaraj">
+        <createTable tableName="driver">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="license_number" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="vehicle_type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- to add the extra column -->
+    <changeSet id="2" author="swaraj">
+        <addColumn tableName="driver">
+            <column name="deleted_by" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <!-- to delete the column-->
+    <changeSet id="3" author="swaraj">
+        <dropColumn tableName="driver" columnName="deleted_by"/>
+    </changeSet>
+
+    <!-- to add the data into the table-->
+    <changeSet id="4" author="swaraj">
+        <insert tableName="driver">
+            <column name="id" value="1"/>
+            <column name="name" value="Swaraj"/>
+            <column name="license_number" value="TS21520200001171"/>
+            <column name="vehicle_type" value="bike"/>
+            <column name="created_at" value="2024-10-22T12:30:00"/>
+            <column name="updated_at" value="2024-10-22T11:00:00"/>
+        </insert>
+    </changeSet>
+
+    <!--to update the data -->
+    <changeSet id="5" author="swaraj">
+        <update tableName="driver">
+            <column name="name" value="Swaraj Updated"/>
+        </update>
+    </changeSet>
+
+    <!--creating a new table -->
+    <changeSet id="6" author="swaraj">
+        <createTable tableName="rides">
+            <column name="ride_id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="driver_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passenger_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ride_date" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ride_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pickup_location" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dropoff_location" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="distance_km" type="decimal(5,2)"/>
+            <column name="duration_minutes" type="int"/>
+            <column name="fare_amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_status" type="varchar(50)"/>
+            <column name="payment_method" type="varchar(50)"/>
+            <column name="driver_rating" type="decimal(3,2)"/>
+            <column name="passenger_rating" type="decimal(3,2)"/>
+            <column name="driver_feedback" type="text"/>
+            <column name="passenger_feedback" type="text"/>
+            <column name="ride_type" type="varchar(50)"/>
+            <column name="car_model" type="varchar(50)"/>
+            <column name="car_plate_number" type="varchar(20)"/>
+            <column name="scheduled_time" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <!--to delete the table-->
+    <changeSet id="7" author="swaraj">
+        <dropTable tableName="rides"/>
+    </changeSet>
+
+    <changeSet id="8" author="swaraj">
+        <createTable tableName="app_polylines">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="booking_id" type="int"/>
+            <column name="polyline" type="text"/>
+            <column name="created_at" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Separate changeset for the index -->
+    <changeSet id="9" author="swaraj">
+        <createIndex tableName="app_polylines" indexName="app_polylines_id_idx" unique="true">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
